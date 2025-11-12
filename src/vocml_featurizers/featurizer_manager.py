@@ -39,6 +39,7 @@ class FeaturizerBaseClass():
     def _save_cache(self, cache: dict, cache_file: str):
         """Save cache to disk safely using atomic file write."""
         tmp_dir = os.path.dirname(cache_file)
+        os.makedirs(tmp_dir, exist_ok=True)
         with tempfile.NamedTemporaryFile("wb", dir=tmp_dir, delete=False) as tmp_file:
             pickle.dump(cache, tmp_file)
             tmp_file.flush()
