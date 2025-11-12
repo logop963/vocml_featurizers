@@ -69,7 +69,7 @@ class FeaturizerBaseClass():
         if missing_samples:
             self._featurization_logic(missing_samples)
 
-        full_batch_embeddings = torch.stack([self.cache[key] for key in input_data])
+        full_batch_embeddings = torch.stack([self.cache[key] for key in input_data if key in self.cache])
         self._save_cache(self.cache, self.cache_file)
 
         return full_batch_embeddings

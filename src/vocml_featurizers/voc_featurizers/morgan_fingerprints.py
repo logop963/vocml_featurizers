@@ -10,7 +10,7 @@ import os
 from vocml_featurizers.featurizer_manager import FeaturizerBaseClass
 from vocml_featurizers.paths import VOC_CACHE
 class MorganFingerprintFeaturizer(nn.Module, FeaturizerBaseClass):
-    def __init__(self, radius: int = 2, n_bits: int = 1024, cache_file:str=os.path.join(VOC_CACHE, 'MorganFingerrint-mapping.pkl')):
+    def __init__(self, radius: int = 2, n_bits: int = 1024, cache_file:str=os.path.join(VOC_CACHE, 'MorganFingerint-mapping.pkl')):
         self.radius  = radius
         self.n_bits = n_bits
         self.cache_file = cache_file

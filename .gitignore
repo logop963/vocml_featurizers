@@ -1,2 +1,10 @@
-src/vocml_featurizers/obp_featurizers/obp_featurizers_cache/*
-src/vocml_featurizers/voc_featurizers/voc_featurizers_cache/*
+# Bytecode
+__pycache__/
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# Cache directories
+src/vocml_featurizers/obp_featurizers/obp_featurizers_cache/
+src/vocml_featurizers/voc_featurizers/voc_featurizers_cache/

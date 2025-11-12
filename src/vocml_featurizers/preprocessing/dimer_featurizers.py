@@ -2,18 +2,26 @@ from vocml_featurizers.preprocessing.base_wrapper import BaseVOCORFeaturizer
 import torch
 
 class VOCORConcatFeaturizer(BaseVOCORFeaturizer):
-    def __init__(self, voc_encoder, or_encoder, voc_col, or_col, target_col, name):
-        super().__init__(voc_encoder, or_encoder, voc_col, or_col)
+    def __init__(self, voc_encoder, or_encoder, voc_col, or_col, target_col, normalize, name):
+        super().__init__(voc_encoder, or_encoder, voc_col, or_col, normalize)
         self.target_col = target_col
         self.name = name
 
     def __call__(self, batch):
         voc, or_ = super().__call__(batch)
-        return {
-            "inputs": torch.cat([voc, or_], dim=1),
-            "targets": batch[self.target_col]
+
+        out = {
+            "inputs": torch.cat([voc, or_], dim=1)
         }
 
+        # handle single or multiple target columns
+        if isinstance(self.target_col, (list, tuple)):
+            for key in self.target_col:
+                out[key] = batch[key]
+        else:
+            out[self.target_col] = batch[self.target_col]
+
+        return out
 
 class VOCORSeparateFeaturizer(BaseVOCORFeaturizer):
     def __init__(self, voc_encoder, or_encoder, voc_col, or_col, target_col, name):
@@ -23,8 +31,17 @@ class VOCORSeparateFeaturizer(BaseVOCORFeaturizer):
 
     def __call__(self, batch):
         voc, or_ = super().__call__(batch)
-        return {
+
+        out = {
             "voc": voc.float(),
             "or": or_.float(),
-            "targets": batch[self.target_col]
         }
+
+        # handle single or multiple target columns
+        if isinstance(self.target_col, (list, tuple)):
+            for key in self.target_col:
+                out[key] = batch[key]
+        else:
+            out[self.target_col] = batch[self.target_col]
+
+        return out
