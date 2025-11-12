@@ -1,2 +1,3 @@
 src/vocml_featurizers/obp_featurizers/obp_featurizers_cache/*
 src/vocml_featurizers/voc_featurizers/voc_featurizers_cache/*
+**/__pycache__/
