@@ -25,7 +25,7 @@ class FeaturizerBaseClass():
                 warnings.warn(f"Cache file {cache_file} is empty. Using an empty cache.", UserWarning)
                 return {}
 
-            print(f'Found cache for {self.name}!')
+            # print(f'Found cache for {self.name}!')
             try:
                 with open(cache_file, "rb") as f:
                     return pickle.load(f)
@@ -70,6 +70,12 @@ class FeaturizerBaseClass():
             self._featurization_logic(missing_samples)
 
         full_batch_embeddings = torch.stack([self.cache[key] for key in input_data if key in self.cache])
-        self._save_cache(self.cache, self.cache_file)
+        # Cache auto-save disabled to prevent race condition
+        # Use save_cache() method manually if needed
+        # self._save_cache(self.cache, self.cache_file)
 
         return full_batch_embeddings
+
+    def save_cache(self):
+        self._save_cache(self.cache, self.cache_file)
+        print(f"Cache saved to {self.cache_file}")
