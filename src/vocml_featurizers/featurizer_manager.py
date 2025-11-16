@@ -12,12 +12,14 @@ import warnings
 import torch
 import tempfile
 import shutil
-
+from vocml_featurizers.paths import VOC_CACHE, OBP_CACHE
 class FeaturizerBaseClass():
     '''
     Tools for using featurizers compiled into an inherited class
     '''
-
+    def __init__(self):
+        os.makedirs(VOC_CACHE, exist_ok=True)
+        os.makedirs(OBP_CACHE, exist_ok=True)
     def _load_cache(self, cache_file: str):
         """Load cache from disk if available, else return empty dict."""
         if os.path.exists(cache_file):

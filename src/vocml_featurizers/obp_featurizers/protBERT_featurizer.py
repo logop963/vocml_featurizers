@@ -72,6 +72,8 @@ class ProtBERTFeaturizer(nn.Module, FeaturizerBaseClass):
                 sequence_embeddings = self._masked_mean_pooling(embeddings, tokenized_inputs["attention_mask"])
             elif self.pooling == "cls":
                 sequence_embeddings = embeddings[:, 0, :]
+            elif self.pooling == None:
+                sequence_embeddings = embeddings
             else:
                 raise ValueError(f"{self.pooling} is not a valid format for pooling selection. Please enter 'mean' for mean pooling, and 'cls' for cls token pooling")
 

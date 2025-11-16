@@ -10,7 +10,7 @@ from vocml_featurizers.featurizer_manager import FeaturizerBaseClass
 from vocml_featurizers.paths import VOC_CACHE
 
 class ChemBERTaFeaturizer(nn.Module, FeaturizerBaseClass):
-    def __init__(self, pooling="mean", feats_cache_file:str=os.path.join(VOC_CACHE, "ChemBERTa-mapping.pkl")):
+    def __init__(self, pooling="mean", cache_file:str=os.path.join(VOC_CACHE, "ChemBERTa-mapping.pkl")):
         super(ChemBERTaFeaturizer, self).__init__()
         self.pooling= pooling
         # Initialize tokenizer & model and give cache dir
@@ -70,6 +70,8 @@ class ChemBERTaFeaturizer(nn.Module, FeaturizerBaseClass):
                 sequence_embeddings = self._masked_mean_pooling(embeddings, tokenized_inputs["attention_mask"])
             elif self.pooling == "cls":
                 sequence_embeddings = embeddings[:, 0, :]
+            elif self.pooling == None:
+                sequence_embeddings = embeddings
             else:
                 raise ValueError(f"{self.pooling} is not a valid format for pooling selection. Please enter 'mean' for mean pooling, and 'cls' for cls token pooling")
 
